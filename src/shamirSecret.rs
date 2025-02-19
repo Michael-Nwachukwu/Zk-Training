@@ -4,7 +4,7 @@ use ark_ff::PrimeField;
 use polynomial::UnivariatePoly;
 use ark_bn254::Fq;
 
-// Define a struct to represent a point in a 2D space, where each coordinate is of type F.
+// struct that represent a point in a 2D space, where each coordinate is of type F.
 #[derive(Debug)]
 struct Point<F> {
     x: F,

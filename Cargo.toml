@@ -4,7 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-regex = "1" 
+regex = "1"
+rand = "0.8"
+ark-ff = "0.3"
+polynomial = "0.4"
+ark-bn254 = "0.3"
 
 [[bin]]
 name = "zk-masterclass"
