@@ -1,0 +1,12 @@
+[package]
+name = "zk-masterclass"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+regex = "1" 
+
+[[bin]]
+name = "zk-masterclass"
+path = "src/shamirSecret.rs"
+
