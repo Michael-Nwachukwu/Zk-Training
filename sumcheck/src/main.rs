@@ -142,7 +142,7 @@ impl <F: PrimeField>Verifier<F> {
     }
 }
 
-pub fn f_to_bytes<F: PrimeField>(field_element: F) -> Vec<u8> {
+pub fn F_to_bytes<F: PrimeField>(field_element: F) -> Vec<u8> {
     field_element.into_bigint().to_bytes_be()
 }
 
