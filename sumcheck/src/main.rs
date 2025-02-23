@@ -47,7 +47,7 @@ impl<F: PrimeField>Prover<F> {
     pub fn prove(&mut self) -> SumcheckProof<F> {
         // commit the initial polynomial to the transcript as bytes array
         self.transcript.append(&self.initial_poly.convert_to_bytes());
-        self.transcript.append(&F_to_bytes(self.initial_claimed_sum));
+        self.transcript.append(&f_to_bytes(self.initial_claimed_sum));
 
         let mut current_polynomial = self.initial_poly.clone();
 
@@ -105,8 +105,8 @@ impl <F: PrimeField>Verifier<F> {
         // commit the initial polynomial to the transcript as bytes array
         self.transcript.append(&proof.initial_poly.convert_to_bytes());
 
-        // commit the initial claimed sum to the transcript as bytes using the F_to_bytes function
-        self.transcript.append(&F_to_bytes(proof.initial_claimed_sum));
+        // commit the initial claimed sum to the transcript as bytes using the f_to_bytes function
+        self.transcript.append(&f_to_bytes(proof.initial_claimed_sum));
 
         // creates a new mutable vector called challenges that will store field elements of type F
         // pre-allocates space for a vector that will space equal to the number of univariate polynomials in the proof
@@ -142,7 +142,7 @@ impl <F: PrimeField>Verifier<F> {
     }
 }
 
-pub fn F_to_bytes<F: PrimeField>(field_element: F) -> Vec<u8> {
+pub fn f_to_bytes<F: PrimeField>(field_element: F) -> Vec<u8> {
     field_element.into_bigint().to_bytes_be()
 }
 
