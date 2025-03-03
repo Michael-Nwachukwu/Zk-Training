@@ -1,5 +1,4 @@
 use ark_ff::PrimeField;
-use strum::IntoEnumIterator;
 
 // Define an enum to represent mathematical operations supported by the circuit
 pub enum Operator {
@@ -115,8 +114,8 @@ impl<F: PrimeField> Circuit<F> {
         // Store all evaluations in the circuit's round_poly field
         self.round_poly = evals.clone();
 
-        // Return the first element of the round_poly as the final output
-        self.round_poly[0].clone()
+        // Return the first element of the first vector in round_poly
+        self.round_poly[0][0]
     }
 
     // Function to retrieve the polynomial for a specific layer
@@ -134,12 +133,12 @@ impl<F: PrimeField> Circuit<F> {
         let layer_vec = &self.layers[layer_id];
 
         // If the layer has no gates, return zero vectors
-        if layer_vec.is_empty() {
+        if layer_vec.gates.is_empty() {
             return vec![vec![F::zero(); 2], vec![F::zero(); 2]];
         }
 
         // Calculate the total number of gates (multiplied by 2 for some reason)
-        let no_of_gates = layer_vec.len() * 2;
+        let no_of_gates = layer_vec.gates.len() * 2;
         // Calculate the number of bits needed to represent gate input indices
         // This is the ceiling of log2 of the number of gates, at least 1
         let no_of_bit_in_gate_input_index = (no_of_gates as f64).log2().ceil().max(1.0) as usize;
@@ -167,9 +166,9 @@ impl<F: PrimeField> Circuit<F> {
         let mut mul_vec = vec![F::zero(); vector_size];
 
         // Process each gate in the layer
-        for gate in layer_vec {
+        for gate in &layer_vec.gates {
             // Get the gate operation
-            let gate_op = &gate.gate_operator; // Note: This will cause a compilation error as 'op' field doesn't exist
+            let gate_op = &gate.gate_operator;
 
             // Compute a unique index for this gate based on its inputs and output
             // First shift left by input bit size and OR with left index
@@ -178,9 +177,9 @@ impl<F: PrimeField> Circuit<F> {
             res = res << no_of_bit_in_gate_input_index | gate.right_index;
             
             // Set the appropriate vector element to 1 based on gate type
-            if let GateOp::Add = gate_op { // Note: GateOp doesn't exist, should be Operator
+            if let Operator::Add = gate_op {
                 add_vec[res] = F::one();
-            } else if let GateOp::Mul = gate_op { // Note: GateOp doesn't exist, should be Operator
+            } else if let Operator::Mul = gate_op {
                 mul_vec[res] = F::one();
             }
         }
@@ -195,7 +194,6 @@ impl<F: PrimeField> Circuit<F> {
 mod tests {
     use super::*;
     use ark_bn254::Fr;
-    use ark_ff::Field;
 
     // Helper function to create field elements
     fn f(val: u64) -> Fr {
