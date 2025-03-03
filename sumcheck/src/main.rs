@@ -18,7 +18,7 @@ fn main() {
     println!("Hello, world!");
 }
 
-// A strict that represents a sumcheck proof
+// A struct that represents a sumcheck proof
 pub struct SumcheckProof<F: PrimeField> {
     pub initial_claimed_sum: F, // type of F
     pub initial_poly: MultilinearPolynomial<F>, // type of Multilinear poly
