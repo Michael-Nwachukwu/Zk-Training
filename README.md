@@ -1,6 +1,6 @@
-# Zk-Training
+# ZERO KNOWLEDGE PLAYGROUND
 
-A repository dedicated to learning and practicing zero-knowledge concepts, with progress tracked through hands-on implementation using the Rust programming language.
+This repository dedicated to learning and practicing zero-knowledge concepts, with progress tracked through hands-on implementation using the Rust programming language.
 
 ## Table of Contents
 
